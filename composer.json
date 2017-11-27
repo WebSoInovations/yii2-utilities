@@ -1,0 +1,21 @@
+{
+    "name": "webso/yii2-utilities",
+    "description": "Paquete para incluir utilidades para proyectos con yii2",
+    "type": "yii2-extension",
+    "license": "property",
+    "authors": [
+        {
+            "name": "WebSo",
+            "email": "websoinovations@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "kartik-v/yii2-widgets": "^3.4"
+    },
+    "autoload": {
+        "psr-4":{
+            "webso\\":""
+        }
+    }
+}
