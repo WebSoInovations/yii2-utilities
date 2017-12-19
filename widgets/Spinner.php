@@ -33,7 +33,7 @@ class Spinner extends Widget
 	    		color:#7f7f7f;
 			}
 			#ws-spinner .ws-spinner-wrapper {
-			    background-color: rgba(0, 0, 0, 0.5);
+			    background-color: transparent;
 			    position: fixed;
 			    display: flex;
 			    justify-content: center;
@@ -56,15 +56,15 @@ class Spinner extends Widget
 	public function run()
 	{
 		$this->getView()->registerJs("
-			$(window).on('load', function(){
-				$('#$this->id').show();
+			$(document).ready(function(){
+				$('#$this->id').fadeOut(200);
 			});
 			$(document).on({
 				ajaxStart:function(){
-					$('#$this->id').show();
+					$('#$this->id').fadeIn(200);
 				},
 				ajaxStop:function(){
-					$('#$this->id').hide();
+					$('#$this->id').fadeOut(200);
 				}
 			});
 		");
