@@ -5,15 +5,19 @@ use yii\helpers\Html;
 
 class Confirm extends Widget
 {
-	private $confirm;
-
 	public $message;
+
+	public $id;
 
 	public $buttonOk;
 
+	private $confirm;
+
 	public function init()
 	{
+		$this->id = isset($this->id) ? $this->id : 'ws-confirm-delete';
 		$this->confirm = Html::beginTag('div', [
+			'id' => $this->id,
 			'class' => 'ws-confirm',
 			'role' => 'alert'
 		]);
@@ -25,7 +29,9 @@ class Confirm extends Widget
 			Html::a('Aceptar', '#', [
 				'role' => 'ok',
 				'data' => [
-					'method' => isset($buttonOk['method']) ? $buttonOk['method'] : 'DELETE'
+					'method' => isset($this->buttonOk['method']) ? $this->buttonOk['method'] : 'DELETE',
+					'grid' => isset($this->buttonOk['grid']) ? $this->buttonOk['grid'] : '',
+					'ajax' => isset($this->buttonOk['ajax']) ? $this->buttonOk['ajax'] : false,
 				]
 			]), 
 			Html::a('Cancelar', '#', [
@@ -137,14 +143,51 @@ class Confirm extends Widget
 				transform: translateY(0);
 			}
 		');
-		$this->getView()->registerJs('
-			$(".ws-confirm-close").click(function(){
-				$(".ws-confirm").removeClass("is-visible");
+		$this->getView()->registerJs("
+			var confirm = $('#$this->id');
+			var btnOk = confirm.find('.ws-confirm-buttons li a[role=\'ok\']');
+			var btnCancel = confirm.find('.ws-confirm-buttons li a[role=\'cancel\']');
+			confirm.find('.ws-confirm-close').click(function(){
+				confirm.removeClass('is-visible');
 			});
-			$(".ws-confirm-buttons li a[role=\'cancel\']").click(function(){
-				$(".ws-confirm").removeClass("is-visible");
+			btnCancel.click(function(){
+				confirm.removeClass('is-visible');
 			});
-		');
+			if (btnOk.data('ajax')) {
+				btnOk.click(function(){
+					$.ajax({
+						method:btnOk.data('method'),
+						url:btnOk.attr('href'),
+						success:function(data){
+							var response = JSON.parse(data);
+							$.notify({
+								title:response.message.title + '<hr class=\'kv-alert-separator\'>',
+								icon:response.message.icon,
+								message:response.message.body
+							}, {
+								type:response.message.type
+							});
+							if ($(btnOk.data('grid')).length > 0) {
+								$.pjax.reload({
+									container:btnOk.data('grid')
+								});
+							}
+						},
+						error:function(){
+							$.notify({
+								title:'Operación no Válida!<hr class=\'kv-alert-separator\'>',
+								icon:'fa fa-times-circle-o',
+								message:'Ocurrió un error al enviar la petición al servidor, favor de intantar mas tarde'
+							}, {
+								type:'error'
+							});	
+						}
+					});
+					confirm.removeClass('is-visible');
+					return false;
+				});
+			}
+		");
 		return Html::decode($this->confirm);
 	}
 }

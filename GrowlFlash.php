@@ -79,8 +79,9 @@ class GrowlFlash extends Component
 			$data = $this->default;
 		}
 		$data['body'] = !is_null($message) ? $message : $this->message($type);
-		return json_encode($data, JSON_UNESCAPED_UNICODE);
+		return $data;
 	}
+
 
 	public function success($message = null)
 	{

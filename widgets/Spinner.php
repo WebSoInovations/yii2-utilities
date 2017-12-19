@@ -5,12 +5,15 @@ use yii\helpers\Html;
 
 class Spinner extends Widget
 {
+	public $id;
+
 	private $spinner;
 
 	public function init()
 	{
+		$this->id = isset($this->id) ? $this->id : 'ws-spinner';
 		$this->spinner = Html::beginTag('div', [
-			'id' => 'ws-spinner'
+			'id' => $this->id
 		]);
 		$this->spinner .= Html::beginTag('div', [
 			'class' => 'ws-spinner-wrapper'
@@ -27,6 +30,7 @@ class Spinner extends Widget
 		$this->spinner .= Html::style('
 			#ws-spinner {
 	    		display:none;
+	    		color:#7f7f7f;
 			}
 			#ws-spinner .ws-spinner-wrapper {
 			    background-color: rgba(0, 0, 0, 0.5);
@@ -51,6 +55,19 @@ class Spinner extends Widget
 
 	public function run()
 	{
+		$this->getView()->registerJs("
+			$(window).on('load', function(){
+				$('#$this->id').show();
+			});
+			$(document).on({
+				ajaxStart:function(){
+					$('#$this->id').show();
+				},
+				ajaxStop:function(){
+					$('#$this->id').hide();
+				}
+			});
+		");
 		return Html::decode($this->spinner);
 	}
 }
