@@ -7,10 +7,10 @@ use kartik\widgets\Growl;
 
 class GrowlFlash extends Component
 {
-	const SUCCESS_MESSAGE = 'El preoceso se realizó correctamente.';
+	const SUCCESS_MESSAGE = 'El proceso se realizó correctamente.';
 	const ERROR_MESSAGE = 'Ocurrió un error en el proceso.';
-	const INFO_MESSAGE = 'Favor de esperar que el proceso finalize.';
-	const WARNING_MESSAGE = 'El proceso pudo no ser realizadó con correctamente.';
+	const INFO_MESSAGE = 'Favor de esperar a que el proceso finalice.';
+	const WARNING_MESSAGE = 'El proceso pudo no ser realizado correctamente.';
 	const DEFAULT_MESSAGE = 'No olvides cerrar tu sesión del sistema al terminar.';
 
 	private $success = [
