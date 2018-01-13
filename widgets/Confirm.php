@@ -177,7 +177,7 @@ class Confirm extends Widget
 							$.notify({
 								title:'Operación no Válida!<hr class=\'kv-alert-separator\'>',
 								icon:'fa fa-times-circle-o',
-								message:'Ocurrió un error al enviar la petición al servidor, favor de intantar mas tarde'
+								message:'Ocurrió un error al enviar la petición al servidor, favor de intentar más tarde.'
 							}, {
 								type:'error'
 							});	

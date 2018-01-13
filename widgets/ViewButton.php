@@ -24,21 +24,18 @@ class ViewButton extends Widget
 				var obj = $(this); 
 				var view = $('#'+obj.data('view')); 
 				if (view.length > 0) {
-					if (view.is(':visible')) {
-						view.hide();
-					} else {
-						view.show();
-					}
+					view.slideToggle('slow');
 				} else {
 					var url = obj.attr('href');
 					$.ajax({
 						url:url,
 						method:'GET',
 						success:function(data){
-							var view = $('<td id='+obj.data('view')+' colspan=\'10\'>'+data+'</td>');
-							view.hide();
-							obj.parent().parent().after(view);
-							view.show();
+							var td = $('<td colspan=\'10\'></td>');
+							var view = $('<div id='+obj.data('view')+'>'+data+'</div>').css('display', 'none');
+							td.append(view);
+							obj.parent().parent().after(td);
+							view.slideToggle('slow');
 						},
 						error:function(){
 							$.notify({
