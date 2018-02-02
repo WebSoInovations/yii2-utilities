@@ -21,7 +21,29 @@ class ToggleButton extends Widget
 		$this->button = Html::a(Html::tag('span', '', [
 			'class' => $this->value == 1 ? 'fa fa-check-circle text-success' : 'fa fa-times-circle text-danger'
 		]), (empty($this->url) ? '#' : $this->url), [
-			'onclick' => "return $(this).button.toggle('{$this->url}', '{$this->grid}');"
+			'onclick' => "
+				$.ajax({
+					url:$(this).attr('href'),
+					method:'PUT',
+					success:function(data){
+						var response = JSON.parse(data);
+						$.notify({
+							title:response.message.title + '<hr class=\'kv-alert-separator\'>',
+							icon:response.message.icon,
+							message:response.message.body
+						}, {
+							type:response.message.type
+						});
+						var grid = '#$this->grid';
+						if ($(grid).length > 0) {
+							$.pjax.reload({
+								container:grid
+							});
+						}
+					}
+				});
+				return false;
+			"
 		]);
 	}
 
