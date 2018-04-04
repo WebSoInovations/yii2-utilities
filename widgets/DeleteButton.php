@@ -11,15 +11,17 @@ class DeleteButton extends Widget
 
 	public $confirm_id;
 
+	public $iconclass;
+
+	public $buttonHtml = [];
+
 	private $button;
 
 	public function init()
 	{
 		parent::init();
 		$this->confirm_id = isset($this->confirm_id) ? $this->confirm_id : 'ws-confirm-delete';
-		$this->button = Html::a(Html::tag('span', '', [
-			'class' => 'fa fa-trash text-danger'
-		]), '#', [
+		$buttonHtml = array_merge([
 			'class' => 'ws-delete',
 			'title' => 'Eliminar',
 			'onclick' => "
@@ -29,7 +31,10 @@ class DeleteButton extends Widget
 				.attr('href', '$this->url')
 				.attr('data-grid', '#$this->grid');
 			"
-		]);
+		], $this->buttonHtml);
+		$this->button = Html::a(Html::tag('span', '', [
+			'class' => isset($this->iconclass) ? $this->iconclass : 'fa fa-trash text-danger'
+		]), '#', $buttonHtml);
 	}
 
 	public function run()
