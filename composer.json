@@ -2,7 +2,7 @@
     "name": "webso/yii2-utilities",
     "description": "Paquete para incluir utilidades para proyectos con yii2",
     "type": "yii2-extension",
-    "license": "MIT",
+    "license": "property",
     "authors": [
         {
             "name": "WebSo",
